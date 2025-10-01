@@ -1,0 +1,39 @@
+{% extends 'jutou/base.html' %}
+
+{% block page_header %}
+  <h1>{{ topic.text }}</h1>
+{% endblock page_header %}
+
+{% block content %}
+
+  <p>
+    <a href="{% url 'jutou:new_entry' topic.id %}">发表新帖</a>
+    <a href="{% url 'jutou:delete_topic' topic.id %}">删除话题</a>
+  </p>
+
+  {% for entry in entries %}
+    <div class="card mb-3">
+      <!-- Card header with timestamp and edit link -->
+      <h4 class="card-header">
+        {{ entry.date_added|date:'M d, Y H:i' }}
+        {% if request.user == entry.owner %}
+          <small><a href="{% url 'jutou:edit_entry' entry.id %}">
+            编辑</a></small>
+          <small><a href="{% url 'jutou:delete_entry' entry.id %}">
+            删除</a></small>
+        {% endif %}
+      </h4>
+      <!-- Card body with entry text -->
+      <div class="card-body">
+        {{ entry.text|linebreaks }}
+        {% if entry.image %}
+          <p><img src="{{ entry.image.url }}" alt="Entry image" class="img-fluid" style="max-width: 100%; height: auto;"></p>
+        {% endif %}
+        <p>发布者: {{ entry.owner.username }}</p>
+      </div>
+    </div>
+  {% empty %}
+    <p>还没有被添加任何帖子！</p>
+  {% endfor %}
+
+{% endblock content %}

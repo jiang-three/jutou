@@ -1,0 +1,16 @@
+{% extends 'jutou/base.html' %}
+{% load django_bootstrap5 %}
+
+{% block page_header %}
+  <h2>登录你的账号</h2>
+{% endblock page_header %}
+
+{% block content %}
+
+  <form action="{% url 'accounts:login' %}" method="post">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% bootstrap_button '登录' button_type='submit' button_class='btn-primary' %}
+  </form>
+
+{% endblock content %}

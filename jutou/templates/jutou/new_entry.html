@@ -1,0 +1,11 @@
+{% extends 'jutou/base.html' %}
+{% block content %}
+  <p></p><a href="{% url 'jutou:topic' topic.id %}">返回</a></p>
+  <h2>发表新帖:</h2>
+  <form method="post" action="{% url 'jutou:new_entry' topic_id=topic.id %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_div }}
+    <button type="submit">发表</button>
+  </form>
+
+{% endblock content %}

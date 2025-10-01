@@ -1,0 +1,22 @@
+{% extends 'jutou/base.html' %}
+
+{% block page_header %}
+  <h2>话题列表</h2>
+{% endblock page_header %}
+
+{% block content %}
+
+  <ul class="list-group border-bottom pb-2 mb-4">
+    {% for topic in topics %}
+      <li class="list-group-item border-0">
+        <a href="{% url 'jutou:topic' topic.id %}">
+          {{ topic.text }}</a>
+          ({{ topic.entry_set.count }} 条帖子)
+      </li>
+    {% empty %}
+      <li class="list-group-item border-0">还没有被添加任何话题！</li>
+    {% endfor %}
+  </ul>
+  <a href="{% url 'jutou:new_topic' %}" class="btn btn-primary">发布新话题</a>
+  
+{% endblock content %}

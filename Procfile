@@ -1,0 +1,1 @@
+web: gunicorn jutou_project.wsgi:application

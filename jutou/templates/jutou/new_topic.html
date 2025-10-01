@@ -1,0 +1,10 @@
+{% extends 'jutou/base.html' %}
+{% block content %}
+    <h1>发布新话题</h1>
+    <form action="{% url 'jutou:new_topic' %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">发布话题</button>
+    </form>
+
+{% endblock content %}

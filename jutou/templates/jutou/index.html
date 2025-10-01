@@ -1,0 +1,19 @@
+{% extends 'jutou/base.html' %}
+
+{% block page_header %}
+  <div class="p-3 mb-4 bg-light border rounded-3">
+    <div class="container-fluid py-4">
+      <h1 class="display-3">记录四巨头的美好生活</h1>
+      
+      <p class="lead">本站分享四巨头的智慧与经验，欢迎关注！
+        在这里，您可以创建自己的话题，分享生活，或列出您正在学习的网站。
+        每当您学习到新网站时，可以在此处进行记录，并总结。
+      </p>
+
+      {% if not user.is_authenticated %}
+        <a class="btn btn-primary btn-lg mt-1"
+           href="{% url 'accounts:login' %}">登录 &raquo;</a>
+      {% endif %}
+    </div>
+  </div>
+{% endblock page_header %}
