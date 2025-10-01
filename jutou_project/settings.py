@@ -173,3 +173,17 @@ MIDDLEWARE = [
 
 # 静态文件存储优化
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# 自动运行迁移和创建超级用户
+if os.environ.get('RUN_MIGRATE'):
+    from django.core.management import execute_from_command_line
+    execute_from_command_line(['manage.py', 'migrate'])
+
+if os.environ.get('RUN_CREATE_SUPERUSER'):
+    from django.contrib.auth.management.commands.createsuperuser import get_user_model
+    if not get_user_model().objects.filter(username=os.environ.get('DJANGO_SUPERUSER_USERNAME')).exists():
+        get_user_model().objects.create_superuser(
+            os.environ.get('DJANGO_SUPERUSER_USERNAME'),
+            os.environ.get('DJANGO_SUPERUSER_EMAIL'),
+            os.environ.get('DJANGO_SUPERUSER_PASSWORD')
+        )
