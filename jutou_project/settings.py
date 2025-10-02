@@ -1,9 +1,3 @@
-
-
-"""
-Django settings for jutou_project project.
-"""
-
 """
 Django settings for jutou_project project.
 """
@@ -29,9 +23,9 @@ if RENDER_EXTERNAL_HOSTNAME:
 
 # Application definition
 INSTALLED_APPS = [
-    'cloudinary_storage',  # 必须在 staticfiles 之前
+    'cloudinary_storage',
     'django.contrib.staticfiles',
-    'cloudinary',          # 必须在 staticfiles 之后
+    'cloudinary',
     
     # my apps
     'jutou',
@@ -44,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    # 'django.contrib.staticfiles',  # 删除这个重复的
 ]
 
 MIDDLEWARE = [
@@ -102,7 +95,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Cloudinary 配置 - 使用环境变量更安全！
+# Cloudinary 配置
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
     'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
@@ -115,12 +108,10 @@ TIME_ZONE = 'Asia/Shanghai'
 USE_I18N = True
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
+# Static files
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-
-STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticCloudinaryStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -130,11 +121,16 @@ LOGIN_REDIRECT_URL = 'jutou:index'
 LOGOUT_REDIRECT_URL = 'jutou:index'
 LOGIN_URL = 'accounts:login'
 
-# Media files - 使用 Cloudinary 后这些配置会被覆盖
+# Media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
-
 FILE_UPLOAD_PERMISSIONS = 0o644
 
 # 使用 Cloudinary 存储媒体文件
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+# 自动运行迁移 - 放在文件末尾
+import sys
+if os.environ.get('RUN_MIGRATE_ON_STARTUP') and 'runserver' in sys.argv:
+    from django.core.management import execute_from_command_line
+    execute_from_command_line(['manage.py', 'migrate'])
