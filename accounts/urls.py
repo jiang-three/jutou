@@ -21,7 +21,7 @@ def create_superuser(request):
         from django.contrib.auth import get_user_model
         User = get_user_model()
         if not User.objects.filter(username='admin').exists():
-            User.objects.create_superuser('admin', 'admin@example.com', '你的强密码')  # 替换为实际密码
+            User.objects.create_superuser('admin', 'admin@example.com', 'jiang44811957')  # 替换为实际密码
             return HttpResponse('超级用户创建成功！')
         return HttpResponse('超级用户已存在')
     return HttpResponse('未授权')
