@@ -104,9 +104,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Cloudinary 配置 - 使用环境变量更安全！
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME', 'dpgbzsu3h'),
-    'API_KEY': os.environ.get('CLOUDINARY_API_KEY', '653897329795219'),
-    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET', '6GodB3hZBCCw1CHNHNg_JKMW-EA'),
+    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
 }
 
 # Internationalization
@@ -120,11 +120,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # 静态文件存储 - 选择其中一种：
-# 方案A：使用 WhiteNoise（推荐）
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-# 方案B：或者使用 Cloudinary（如果要用 Cloudinary 托管静态文件）
-# STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticCloudinaryStorage'
+STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticCloudinaryStorage'
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
