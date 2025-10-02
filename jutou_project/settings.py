@@ -119,10 +119,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-<<<<<<< HEAD
-# 静态文件存储 - 选择其中一种：
-=======
->>>>>>> 3959905c0870f38b604f3be1be801b3f440f6999
+
 STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticCloudinaryStorage'
 
 # Default primary key field type
