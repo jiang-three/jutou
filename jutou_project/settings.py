@@ -104,9 +104,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Cloudinary 配置 - 使用环境变量更安全！
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME', 'dpgbzsu3h'),
-    'API_KEY': os.environ.get('CLOUDINARY_API_KEY', '653897329795219'),
-    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET', '6GodB3hZBCCw1CHNHNg_JKMW-EA'),
+    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
 }
 
 # Internationalization
