@@ -4,6 +4,10 @@
 Django settings for jutou_project project.
 """
 
+"""
+Django settings for jutou_project project.
+"""
+
 import os
 from pathlib import Path
 import dj_database_url
@@ -25,6 +29,10 @@ if RENDER_EXTERNAL_HOSTNAME:
 
 # Application definition
 INSTALLED_APPS = [
+    'cloudinary_storage',  # 必须在 staticfiles 之前
+    'django.contrib.staticfiles',
+    'cloudinary',          # 必须在 staticfiles 之后
+    
     # my apps
     'jutou',
     'accounts',
@@ -36,7 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
+    # 'django.contrib.staticfiles',  # 删除这个重复的
 ]
 
 MIDDLEWARE = [
@@ -94,6 +102,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Cloudinary 配置 - 使用环境变量更安全！
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME', 'dpgbzsu3h'),
+    'API_KEY': os.environ.get('CLOUDINARY_API_KEY', '653897329795219'),
+    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET', '6GodB3hZBCCw1CHNHNg_JKMW-EA'),
+}
+
 # Internationalization
 LANGUAGE_CODE = 'zh-hans'
 TIME_ZONE = 'Asia/Shanghai'
@@ -104,8 +119,12 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# 静态文件存储优化
+# 静态文件存储 - 选择其中一种：
+# 方案A：使用 WhiteNoise（推荐）
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# 方案B：或者使用 Cloudinary（如果要用 Cloudinary 托管静态文件）
+# STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticCloudinaryStorage'
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -115,12 +134,11 @@ LOGIN_REDIRECT_URL = 'jutou:index'
 LOGOUT_REDIRECT_URL = 'jutou:index'
 LOGIN_URL = 'accounts:login'
 
-# Media files
+# Media files - 使用 Cloudinary 后这些配置会被覆盖
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 FILE_UPLOAD_PERMISSIONS = 0o644
 
-# 设置文件上传大小限制（例如，5MB）
-FILE_UPLOAD_MAX_MEMORY_SIZE = 5242880  # 5MB in bytes
-
+# 使用 Cloudinary 存储媒体文件
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
