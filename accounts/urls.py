@@ -30,7 +30,7 @@ def create_users(request):
             {'username': '小鹿', 'password': 'jiang448119', 'email': 'zhihu@example.com', 'is_superuser': False},
             {'username': '耗子','password': 'zhy12345678', 'email': 'test@example.com', 'is_superuser': False},
             {'username': '老吊', 'password': 'zxc66668888', 'email': 'zhihu@example.com', 'is_superuser': False},
-            {'username': '贝肯'，'password': 'ljl00000000', 'email': 'test@example.com', 'is_superuser': False},
+            {'username': '贝肯','password': 'ljl00000000', 'email': 'test@example.com', 'is_superuser': False},
         ]
         
         for user_data in users_to_create:
