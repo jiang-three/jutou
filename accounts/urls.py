@@ -2,7 +2,8 @@ from django.urls import path, include
 from django.http import HttpResponse
 from django.core.management import call_command
 from django.contrib.auth import get_user_model
-from 。 import views
+
+from  accounts import views
 
 app_name = 'accounts'
 
