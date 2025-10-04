@@ -2,7 +2,7 @@ from django.urls import path, include
 from django.http import HttpResponse
 from django.core.management import call_command
 from django.contrib.auth import get_user_model
-from . import views
+from 。 import views
 
 app_name = 'accounts'
 
@@ -87,3 +87,54 @@ urlpatterns = [
     path('admin-commands/create-users/', create_users, name='create_users'),
     path('admin-commands/check-users/', check_users, name='check_users'),
 ]
+
+def check_cloudinary(request):
+    """检查 Cloudinary 配置状态"""
+    admin_key = 'NPIG3NAT-5Cf-Jo9dhmpI4Hhfw1KmybtJjwjo3snefnfdhs5f0MLuMmlM1ElGL1eogk'
+    if request.GET.get('key') == admin_key:
+        try:
+            info = []
+            
+            # 1. 检查环境变量
+            cloud_name = os.environ.get('CLOUDINARY_CLOUD_NAME')
+            api_key = os.environ.get('CLOUDINARY_API_KEY')
+            api_secret = os.environ.get('CLOUDINARY_API_SECRET')
+            
+            info.append(f"Cloudinary 环境变量:")
+            info.append(f"  - CLOUD_NAME: {'✅ 已设置' if cloud_name else '❌ 未设置'}")
+            info.append(f"  - API_KEY: {'✅ 已设置' if api_key else '❌ 未设置'}")
+            info.append(f"  - API_SECRET: {'✅ 已设置' if api_secret else '❌ 未设置'}")
+            
+            # 2. 检查 Cloudinary 存储配置
+            from django.core.files.storage import default_storage
+            info.append(f"默认文件存储: {default_storage.__class__.__name__}")
+            
+            # 3. 测试 Cloudinary 连接
+            try:
+                import cloudinary
+                from cloudinary import uploader
+                
+                # 简单的配置测试
+                config = cloudinary.config()
+                info.append(f"Cloudinary 配置: cloud_name={config.cloud_name}, api_key={config.api_key}")
+                
+                # 尝试列出一些资源
+                result = uploader.resources(type="upload", max_results=5)
+                info.append(f"Cloudinary 中的图片数量: {result.get('total_count', 0)}")
+                
+                if result.get('resources'):
+                    for resource in result['resources']:
+                        info.append(f"  - {resource['public_id']} ({resource['format']})")
+                else:
+                    info.append("  📭 Cloudinary 中没有图片")
+                    
+            except Exception as e:
+                info.append(f"❌ Cloudinary 连接测试失败: {e}")
+            
+            return HttpResponse('<br>'.join(info))
+        except Exception as e:
+            return HttpResponse(f"诊断过程出错: {str(e)}")
+    return HttpResponse('未授权')
+
+# 添加到 urlpatterns
+path('admin-commands/check-cloudinary/', check_cloudinary, name='check_cloudinary')
